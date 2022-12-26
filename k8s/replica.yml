@@ -1,0 +1,75 @@
+---
+apiVersion: apps/v1
+# we are creating the replica
+kind: ReplicaSet
+metadata:
+  name: nginx
+  labels:
+    app: nginx
+spec:
+   minReadySeconds: 3
+   replicas: 2
+   selector:
+     matchExpressions:
+       - key: app
+         operator: In
+         values:
+           - nginx
+       - key: version
+         operator: Exists
+   template:
+     metadata:
+       name: nginx-pod
+       labels:
+         app: nginx
+         version: "1.23"
+     spec:
+       containers:
+         - name: nginx
+           image: nginx:1.23
+           ports:
+             - containerPort: 80
+               protocol: TCP
+
+---
+apiVersion: v1
+# we are create the service
+kind: Service
+metadata:
+  name: nginx-service
+spec: 
+  selector:
+    app: nginx
+  type: ClusterIP
+  ports:
+    - name: webport
+      port: 80
+      targetPort: 80
+
+---
+ apiVersion: apps/v1
+ # we create daemonset
+ kind: DaemonSet
+ metadata:
+   name: daemonset
+ spec:
+   minReadySeconds: 3
+   selector:
+     matchLabels:
+       app: daemonset
+   template:
+     metadata:
+       name: daemonset
+       labels:
+         app: daemonset
+     spec:
+       containers:
+         - name: daemonset
+           image: alpine
+           command:
+             - sleep
+             - 1d
+
+
+
+

@@ -1,0 +1,80 @@
+---
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: replicaset
+  labels:
+    app: jenkins
+    db: ngnix
+spec:
+  minReadySeconds: 2
+  replicas: 2
+  selector:
+    matchLabels:
+      app: jenkins
+      db: nginx
+  template:
+    metadata:
+      name: replicaset
+      labels:
+        app: jenkins
+        db: nginx
+    spec:
+      containers:
+        - image: jenkins/jenkins
+          name: jenkins
+          ports: 
+            - containerPort: 8080
+              name: jenkins
+              protocol: TCP
+
+---
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: nginx
+  labels:
+    app: jenkins
+    db: ngnix
+spec:
+  minReadySeconds: 2
+  replicas: 2
+  selector:
+    matchLabels:
+      app: jenkins
+      db: nginx
+  template:
+    metadata:
+      name: nginx
+      labels:
+        app: jenkins
+        db: nginx
+    spec:
+      containers:
+        - image: nginx
+          name: nginx
+          ports: 
+            - containerPort: 80
+              name: nginx
+              protocol: TCP
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: jenkins
+  labels:
+    app: jenkins
+spec:
+  selector:
+      app: jenkins
+      db: nginx
+  ports:
+    - port: 8080
+      targetPort: 8080
+      name: jenkins-1
+    - port: 80
+      targetPort: 80
+      name: nginx
+  type: LoadBalancer
+

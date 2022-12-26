@@ -1,0 +1,43 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jenkins-server
+spec:
+  minReadySeconds: 10
+  replicas: 4
+  selector:
+    matchLabels:
+      app: jenkins
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+  template:
+    metadata:
+      name: jenkins
+      labels:
+        app: jenkins
+    spec:
+      containers:
+        - name: jenkins
+          image: jenkins:2.60.3
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: jenkins-loadbalancer
+spec:
+  type: LoadBalancer
+  selector:
+    app: jenkins
+  ports:
+    - name: jenkinsport
+      port: 80
+      targetPort: 8080

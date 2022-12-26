@@ -1,0 +1,26 @@
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: demo-cronjob
+spec:
+  schedule: "* * * * *"
+  jobTemplate:
+    metadata:
+      name: cronjob
+      labels:
+        type: cron-jobs
+    spec:
+      template:
+        metadata:
+          name: demo-cronjob
+          labels:
+            type: demo-cronjob
+        spec:
+          restartPolicy: OnFailure
+          containers:
+            - name: download
+              image: alpine:3
+              command:
+                - sleep
+                - 1d
