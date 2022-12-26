@@ -18,6 +18,11 @@ stages {
     }
     stage ('kubectl') {
         steps {
+            sh 'kubectl apply -f ./k8s/task.yml'
+        }
+    }
+    stage ('kubectl pods') {
+        steps {
             sh 'kubectl get po'
         }
     }
