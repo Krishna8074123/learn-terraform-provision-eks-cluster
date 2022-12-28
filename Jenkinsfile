@@ -8,7 +8,7 @@ stages {
     }
     stage('image push') {
         steps {
-            sh 'terraform destroy --auto-approve'
+            sh 'terraform apply --auto-approve'
         }
     }
     stage('image run') {
