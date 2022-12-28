@@ -1,0 +1,43 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: open
+spec:
+  minReadySeconds: 10
+  replicas: 2
+  selector:
+    matchLabels:
+      app: open
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+  template:
+    metadata:
+      name: openmrs
+      labels:
+        app: open
+    spec:
+      containers:
+        - name: openmrs
+          image: krishna8080/test1:1.0
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: opemrs
+spec:
+  type: LoadBalancer
+  selector:
+    app: open
+  ports:
+    - name: open
+      port: 8080
+      targetPort: 8080

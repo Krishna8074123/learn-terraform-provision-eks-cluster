@@ -18,7 +18,7 @@ stages {
     }
     stage ('kubectl') {
         steps {
-            sh 'kubectl apply -f ./k8s/task.yml'
+            sh 'kubectl apply -f deploy.yml'
         }
     }
     stage ('kubectl pods') {
