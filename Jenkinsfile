@@ -3,7 +3,7 @@ agent any
     stages {
         stage('build') {
             steps {
-                sh 'whoami'
+                sh 'terraform init'
             }
         }
         stage('apply') {
