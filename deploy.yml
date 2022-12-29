@@ -8,7 +8,7 @@ spec:
   replicas: 2
   selector:
     matchLabels:
-      app: open
+      app: openmrskk
   strategy:
     type: RollingUpdate
     rollingUpdate:
@@ -18,7 +18,7 @@ spec:
     metadata:
       name: openmrs
       labels:
-        app: open
+        app: openmrskk
     spec:
       containers:
         - name: openmrs
