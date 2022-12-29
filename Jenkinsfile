@@ -1,17 +1,17 @@
 pipeline {
 agent any 
     stages {
-        stage('image build') {
+        stage('build') {
             steps {
                 sh 'terraform init'
             }
         }
-        stage('image push') {
+        stage('apply') {
             steps {
                 sh 'terraform apply --auto-approve'
             }
         }
-        stage('image run') {
+        stage('terraform run') {
             steps {
                 sh 'aws eks --region $(terraform output -raw region) update-kubeconfig --name $(terraform output -raw cluster_name)'
             }
