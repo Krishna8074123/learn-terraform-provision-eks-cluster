@@ -6,8 +6,8 @@ metadata:
   labels:
     app: openmrs
 spec:
-  minReadySeconds: 5
-  replicas: 4
+  minReadySeconds: 10
+  replicas: 2
   selector:
     matchLabels:
       app: openmrs
@@ -42,5 +42,4 @@ spec:
   ports:
     - name: webserver
       port: 8080
-      protocol: TCP
       targetPort: 8080                     
