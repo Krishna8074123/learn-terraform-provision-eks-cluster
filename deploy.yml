@@ -1,11 +1,13 @@
 ---
 apiVersion: apps/v1
-kind: Deployment
+kind: 	Deployment
 metadata:
-  name: open
+  name: openmrs-deploy
+  labels:
+    app: openmrs
 spec:
-  minReadySeconds: 10
-  replicas: 2
+  minReadySeconds: 5
+  replicas: 4
   selector:
     matchLabels:
       app: openmrs
@@ -16,7 +18,7 @@ spec:
       maxUnavailable: 25%
   template:
     metadata:
-      name: openmrs
+      name: openmrs-pod
       labels:
         app: openmrs
     spec:
@@ -25,19 +27,20 @@ spec:
           image: krishna8080/test1:1.0
           ports:
             - containerPort: 8080
-              protocol: TCP
-
-
+              protocol: TCP       
 ---
 apiVersion: v1
-kind: Service
+kind: 	Service
 metadata:
-  name: opemrs
+  name: openmrs-svc
+  labels:
+    app: openmrs
 spec:
   type: LoadBalancer
-  selector:
-    app: open
+  selector: 
+    app: openmrs
   ports:
-    - name: open
+    - name: webserver
       port: 8080
-      targetPort: 8080
+      protocol: TCP
+      targetPort: 8080                     
