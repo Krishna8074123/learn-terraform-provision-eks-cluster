@@ -16,5 +16,10 @@ agent any
                 sh 'aws eks --region $(terraform output -raw region) update-kubeconfig --name $(terraform output -raw cluster_name)'
             }
         }
+        stage('apply') {
+            steps {
+                sh 'kubectl apply -f deploy.yml'
+            }
+        }
     }
 }
