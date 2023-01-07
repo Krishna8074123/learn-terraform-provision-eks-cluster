@@ -8,7 +8,7 @@ agent any
         }
         stage('apply') {
             steps {
-                sh 'terraform destroy --auto-approve'
+                sh 'terraform apply --auto-approve'
             }
         }
         stage('terraform run') {
