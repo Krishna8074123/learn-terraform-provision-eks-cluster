@@ -24,7 +24,7 @@ spec:
     spec:
       containers:
         - name: openmrs
-          image: krishna8080/test1:1.0
+          image: krishna8080/test1:2.0
           ports:
             - containerPort: 8080
               protocol: TCP       
